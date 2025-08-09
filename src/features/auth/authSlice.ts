@@ -42,6 +42,11 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk('auth/logout', async () => {
+  deleteCookie('accessToken');
+  deleteCookie('refreshToken');
+});
+
 interface AuthState {
   user: null | { email: string; name: string };
   loading: boolean;
@@ -61,12 +66,6 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     noToken: (state) => {
-      state.isAuthChecked = true;
-    },
-    logout: (state) => {
-      deleteCookie('accessToken');
-      deleteCookie('refreshToken');
-      state.user = null;
       state.isAuthChecked = true;
     },
     setUser: (state, action) => {
@@ -110,9 +109,13 @@ const authSlice = createSlice({
         state.loading = false;
         state.isAuthChecked = true;
         state.user = null;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null;
+        state.isAuthChecked = true;
       });
   }
 });
 
-export const { logout, noToken, setUser } = authSlice.actions;
+export const { noToken, setUser } = authSlice.actions;
 export default authSlice.reducer;

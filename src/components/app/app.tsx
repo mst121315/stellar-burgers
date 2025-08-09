@@ -22,10 +22,11 @@ import { ProtectedRoute } from '../ProtectedRoute';
 import { useNavigate } from 'react-router-dom';
 
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../../features/auth/authSlice';
-import { AppDispatch } from '../../services/store';
+import { RootState, AppDispatch } from '../../services/store';
 import { getCookie } from '../../utils/cookie';
+import { fetchIngredients } from '../../features/ingredients/ingredientsSlice';
 
 const App = () => {
   const location = useLocation();
@@ -41,6 +42,13 @@ const App = () => {
       dispatch({ type: 'auth/noToken' });
     }
   }, [dispatch]);
+
+  const items = useSelector((state: RootState) => state.ingredients.items);
+  useEffect(() => {
+    if (items.length === 0) {
+      dispatch(fetchIngredients());
+    }
+  }, [items.length, dispatch]);
 
   return (
     <div className={styles.app}>
@@ -97,7 +105,14 @@ const App = () => {
           }
         />
 
-        {/*<Route path="/profile/orders/:number" element={<ProtectedRoute><ProfileOrders /></ProtectedRoute>} />*/}
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <ProfileOrders />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path='*' element={<NotFound404 />} />
       </Routes>
@@ -123,7 +138,7 @@ const App = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title='Заказ' onClose={() => alert('1')}>
+              <Modal title='Ингридиент' onClose={() => navigate(-1)}>
                 <IngredientDetails />
               </Modal>
             }

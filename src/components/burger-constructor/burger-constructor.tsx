@@ -4,6 +4,7 @@ import { BurgerConstructorUI } from '@ui';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../services/store';
 import { createOrder } from '../../features/order/createOrderSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,16 +23,21 @@ export const BurgerConstructor: FC = () => {
   };
 
   const orderModalData = null;
+  const navigate = useNavigate();
 
   const onOrderClick = () => {
-    if (!user) return;
     if (
       !constructorItems.bun ||
       !constructorItems.bun._id ||
       constructorItems.ingredients.length === 0 ||
       orderRequest
-    )
+    ) {
       return;
+    }
+    if (!user) {
+      navigate('/login');
+      return;
+    }
     const ingredientIds = [
       constructorItems.bun._id,
       ...constructorItems.ingredients.map((i) => i._id),

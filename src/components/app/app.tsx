@@ -22,7 +22,7 @@ import { ProtectedRoute } from '../ProtectedRoute';
 import { useNavigate } from 'react-router-dom';
 
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../services/store';
 import { fetchUser } from '../../features/auth/authSlice';
 import { RootState, AppDispatch } from '../../services/store';
 import { getCookie } from '../../utils/cookie';
@@ -33,7 +33,7 @@ const App = () => {
   const backgroundLocation = location.state?.background;
   const navigate = useNavigate();
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const token = getCookie('accessToken');
     if (token) {
@@ -43,7 +43,7 @@ const App = () => {
     }
   }, [dispatch]);
 
-  const items = useSelector((state: RootState) => state.ingredients.items);
+  const items = useAppSelector((state: RootState) => state.ingredients.items);
   useEffect(() => {
     if (items.length === 0) {
       dispatch(fetchIngredients());
@@ -130,7 +130,7 @@ const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title='Заказ' onClose={() => navigate(-1)}>
+              <Modal title='Заказ' onClose={() => navigate('/profile/orders')}>
                 <OrderInfo />
               </Modal>
             }

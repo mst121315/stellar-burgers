@@ -5,18 +5,18 @@ import { TIngredient } from '@utils-types';
 
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../services/store';
 import { RootState, AppDispatch } from '../../services/store';
 import { fetchOrderByNumber } from '../../features/order/orderSlice';
 
 export const OrderInfo: FC = () => {
   const { number } = useParams();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const { order: orderData, loading } = useSelector(
+  const { order: orderData, loading } = useAppSelector(
     (state: RootState) => state.order
   );
-  const { items: ingredients } = useSelector(
+  const { items: ingredients } = useAppSelector(
     (state: RootState) => state.ingredients
   );
 

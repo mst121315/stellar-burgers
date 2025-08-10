@@ -6,13 +6,13 @@ import { TBurgerIngredientProps } from './type';
 
 import { addIngredient } from '../../features/constructor/constructorSlice';
 import { AppDispatch } from '../../services/store';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../services/store';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {
     const location = useLocation();
 
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
     const handleAdd = () => {
       dispatch(addIngredient(ingredient));
     };

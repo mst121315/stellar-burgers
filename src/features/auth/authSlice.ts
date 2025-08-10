@@ -13,7 +13,10 @@ export const registerUser = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      return await registerUserApi(data);
+      const res = await registerUserApi(data);
+      setCookie('accessToken', res.accessToken);
+      setCookie('refreshToken', res.refreshToken);
+      return res;
     } catch (err: any) {
       return rejectWithValue(err.message || 'Ошибка регистрации');
     }
@@ -24,7 +27,10 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (data: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      return await loginUserApi(data);
+      const res = await loginUserApi(data);
+      setCookie('accessToken', res.accessToken);
+      setCookie('refreshToken', res.refreshToken);
+      return res;
     } catch (err: any) {
       return rejectWithValue(err.message || 'Ошибка входа');
     }
@@ -78,8 +84,6 @@ const authSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-        setCookie('accessToken', action.payload.accessToken);
-        setCookie('refreshToken', action.payload.refreshToken);
         state.isAuthChecked = true;
       })
       .addCase(loginUser.pending, (state) => {
@@ -89,8 +93,6 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-        setCookie('accessToken', action.payload.accessToken);
-        setCookie('refreshToken', action.payload.refreshToken);
         state.isAuthChecked = true;
       })
       .addCase(loginUser.rejected, (state, action) => {

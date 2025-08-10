@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
-import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAppSelector } from '../../services/store';
+import { Preloader } from '../ui/preloader';
 
 type ProtectedRouteProps = {
   children: ReactNode;
@@ -13,14 +14,20 @@ export const ProtectedRoute = ({
   guestOnly = false,
   children
 }: ProtectedRouteProps) => {
-  const user = useSelector(userDataSelector);
+  const location = useLocation();
+  const { user, isAuthChecked } = useAppSelector((state) => state.auth);
+
+  if (!isAuthChecked) {
+    return <Preloader />;
+  }
 
   if (user && guestOnly) {
-    return <Navigate replace to='/profile' />;
+    const { from } = (location.state as any) || { from: { pathname: '/' } };
+    return <Navigate replace to={from} />;
   }
 
   if (!user && !guestOnly) {
-    return <Navigate replace to='/login' />;
+    return <Navigate replace to='/login' state={{ from: location }} />;
   }
 
   return children;

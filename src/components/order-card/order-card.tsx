@@ -5,14 +5,14 @@ import { OrderCardProps } from './type';
 import { TIngredient } from '@utils-types';
 import { OrderCardUI } from '../ui/order-card';
 
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../services/store';
 import { RootState } from '../../services/store';
 
 const maxIngredients = 6;
 
 export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   const location = useLocation();
-  const { items } = useSelector((state: RootState) => state.ingredients);
+  const { items } = useAppSelector((state: RootState) => state.ingredients);
   const ingredients = items;
 
   const orderInfo = useMemo(() => {

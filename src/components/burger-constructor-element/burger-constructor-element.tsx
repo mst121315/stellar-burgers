@@ -2,7 +2,7 @@ import { FC, memo } from 'react';
 import { BurgerConstructorElementUI } from '@ui';
 import { BurgerConstructorElementProps } from './type';
 
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../services/store';
 import { AppDispatch } from '../../services/store';
 import {
   removeIngredient,
@@ -12,7 +12,7 @@ import {
 
 export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
   ({ ingredient, index, totalItems }) => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
 
     const handleMoveDown = () => {
       dispatch(moveDown(index));

@@ -44,7 +44,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => {
               location.pathname.startsWith('/profile') ? 'primary' : 'secondary'
             }
           />
-          <Link to='/login' className={styles.link}>
+          <Link to={userName ? '/profile' : '/login'} className={styles.link}>
             <p className='text text_type_main-default ml-2'>
               {userName || 'Личный кабинет'}
             </p>

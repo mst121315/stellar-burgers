@@ -80,6 +80,7 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
       </div>
       <Button
         htmlType='button'
+        data-testid="order-button"
         type='primary'
         size='large'
         children='Оформить заказ'

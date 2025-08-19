@@ -60,7 +60,7 @@ interface AuthState {
   isAuthChecked: boolean;
 }
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   user: null,
   loading: false,
   error: null,

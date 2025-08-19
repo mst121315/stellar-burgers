@@ -1,0 +1,10 @@
+{
+  "name": "Ваш бургер",
+  "success": true,
+  "order": {
+    "ingredients": ["111", "222", "333"],
+    "_id": "order123",
+    "status": "done",
+    "number": 42
+  }
+}

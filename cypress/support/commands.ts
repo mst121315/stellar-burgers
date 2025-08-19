@@ -1,3 +1,24 @@
+import { selectors } from './selectors';
+
+Cypress.Commands.add('addIngredient', (index: number) => {
+  cy.get(selectors.addIngredientButton).eq(index).click();
+});
+
+Cypress.Commands.add('openIngredientModal', () => {
+  cy.get(selectors.ingredientLink).first().click();
+});
+
+Cypress.Commands.add('closeModalByCross', () => {
+  cy.get(selectors.buttonClose).first().click();
+});
+
+Cypress.Commands.add('closeModalByOverlay', () => {
+  cy.get(selectors.modalOverlay).click({ force: true });
+});
+
+
+
+
 /// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to

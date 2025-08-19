@@ -4,16 +4,11 @@ import reducer, {
   registerUser,
   logout,
   noToken,
-  setUser
+  setUser,
+  initialState
 } from './authSlice';
 
 describe('authSlice reducer', () => {
-  const initialState = {
-    user: null,
-    loading: false,
-    error: null,
-    isAuthChecked: false
-  };
 
   it('loginUser.pending — включает загрузку и очищает ошибку', () => {
     const nextState = reducer(initialState, { type: loginUser.pending.type });
